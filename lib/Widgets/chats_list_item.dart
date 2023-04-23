@@ -11,15 +11,17 @@ import '../Utilities/consts.dart';
 
 Widget chatsListItem({required BuildContext context}) {
   return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('users/IfZYEiZrodMI6Gug9PS8DJ9rMQS2/email')
-          .snapshots(),
+      stream: FirebaseFirestore.instance.collection('users').snapshots(),
       builder: (context, snapshot) {
         return ListView.builder(
-            itemCount:  10,
+            itemCount: snapshot.data != null ? snapshot.data!.docs.length : 10,
             itemBuilder: ((context, index) => GestureDetector(
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => ChatPage()))),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => ChatPage()),
+                    ),
+                  ),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Card(
@@ -36,9 +38,7 @@ Widget chatsListItem({required BuildContext context}) {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    BlocProvider.of<RegisterCubit>(context)
-                                        .nickNameController!
-                                        .text,
+                                    "${snapshot.data?.docs[index]["username"]}",
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                   const Text("How are you today👉🏽💜👈🏽? "),

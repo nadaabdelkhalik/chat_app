@@ -22,9 +22,16 @@ class ChatPage extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterStates>(
       builder: (context, state) => Scaffold(
         appBar: AppBar(
-            title: Text(BlocProvider.of<RegisterCubit>(context).nickNameController?.text == null
-                ? BlocProvider.of<RegisterCubit>(context).firstNameController.text
-                : BlocProvider.of<RegisterCubit>(context).nickNameController!.text)),
+            title: Text(BlocProvider.of<RegisterCubit>(context)
+                        .nickNameController
+                        ?.text ==
+                    null
+                ? BlocProvider.of<RegisterCubit>(context)
+                    .firstNameController
+                    .text
+                : BlocProvider.of<RegisterCubit>(context)
+                    .nickNameController!
+                    .text)),
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,

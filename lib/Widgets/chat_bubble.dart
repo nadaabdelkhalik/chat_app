@@ -16,7 +16,7 @@ Widget chatBubbleList({required BuildContext context}) => StreamBuilder(
         );
       }
       return ListView.builder(
-          itemCount: snapshot.data!.docs.length,
+          itemCount: snapshot.data == null ? 10 : snapshot.data!.docs.length,
           itemBuilder: ((context, index) => Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -29,7 +29,7 @@ Widget chatBubbleList({required BuildContext context}) => StreamBuilder(
                       color: kprimaryColor),
                   padding: const EdgeInsets.all(16),
                   child: Text(
-                    snapshot.data!.docs[index]['text'],
+                    snapshot.data?.docs[index]['text']??'hi',
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),

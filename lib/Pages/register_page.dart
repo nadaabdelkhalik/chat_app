@@ -114,11 +114,15 @@ class RegisterPage extends StatelessWidget {
                         : const Text("Sign UP"),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        BlocProvider.of<RegisterCubit>(context).firstNameController.text =
+                        BlocProvider.of<RegisterCubit>(context)
+                                .firstNameController
+                                .text =
                             BlocProvider.of<RegisterCubit>(context)
                                 .firstNameController
                                 .text;
-                        BlocProvider.of<RegisterCubit>(context).lastNameController.text =
+                        BlocProvider.of<RegisterCubit>(context)
+                                .lastNameController
+                                .text =
                             BlocProvider.of<RegisterCubit>(context)
                                 .lastNameController
                                 .text;
@@ -145,8 +149,6 @@ class RegisterPage extends StatelessWidget {
                             margin: const EdgeInsets.all(60),
                             behavior: SnackBarBehavior.floating,
                           ));
-
-                          
                         }
                       }
                     }),
