@@ -40,9 +40,10 @@ class RegisterCubit extends Cubit<RegisterStates> {
           .collection('users')
           .doc(authResult.user!.uid)
           .set({
-        'username': firstNameController.text,
+        'displayName': firstNameController.text,
         'email': emailAddressController.text,
-        'password': passwordController.text
+        'password': passwordController.text,
+        'uid':firebaseInstance.currentUser?.uid
       });
     } on FirebaseAuthException catch (e) {
       errorMessageForSigningUp = e.message;

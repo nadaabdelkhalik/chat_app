@@ -1,9 +1,8 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
 
 import 'package:chat_app/Bloc/register_cubit.dart';
 import 'package:chat_app/Bloc/register_states.dart';
+import 'package:chat_app/Utilities/consts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -15,23 +14,15 @@ import '../Widgets/chat_bubble.dart';
 import '../Widgets/text_field.dart';
 
 class ChatPage extends StatelessWidget {
-  ChatPage({super.key});
+  ChatPage({super.key, required this.userName, required this.userId});
   final ImagePicker picker = ImagePicker();
+  final String userName;
+  final String userId;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterCubit, RegisterStates>(
       builder: (context, state) => Scaffold(
-        appBar: AppBar(
-            title: Text(BlocProvider.of<RegisterCubit>(context)
-                        .nickNameController
-                        ?.text ==
-                    null
-                ? BlocProvider.of<RegisterCubit>(context)
-                    .firstNameController
-                    .text
-                : BlocProvider.of<RegisterCubit>(context)
-                    .nickNameController!
-                    .text)),
+        appBar: AppBar(title: const Text('')),
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -51,7 +42,11 @@ class ChatPage extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Expanded(child: chatBubbleList(context: context)),
+              Expanded(
+                  child: ChatBubble(
+                userName: userName,
+                
+              )),
               SizedBox(
                 height: 70,
                 child: textField(
@@ -61,11 +56,15 @@ class ChatPage extends StatelessWidget {
                       child: IconButton(
                           onPressed: (() async {
                             BlocProvider.of<RegisterCubit>(context).pickedFile =
-                                await picker.pickImage(
-                                    source: ImageSource.gallery,
-                                    imageQuality: 100);
-                            BlocProvider.of<RegisterCubit>(context)
-                                .changeState();
+                                await picker
+                                    .pickImage(
+                                        source: ImageSource.gallery,
+                                        imageQuality: 100)
+                                    .then((value) {
+                              BlocProvider.of<RegisterCubit>(context)
+                                  .changeState();
+                              return null;
+                            });
                           }),
                           icon: Icon(
                             Icons.camera_alt,
@@ -78,12 +77,16 @@ class ChatPage extends StatelessWidget {
                     suffixIcon: Icons.send,
                     onPressed: () {
                       FirebaseFirestore.instance
-                          .collection('chats/tv6pNtVSns6qWgQTtYr1/messages')
+                          .collection('chats/chatsDoc/chat$userName/chat/messages')
                           .add({
                         'text': BlocProvider.of<RegisterCubit>(context)
                             .messagesController
-                            .text
+                            .text,
+                        'createdAt': DateTime.now(),
+                        
+                        'userId':currentUserId
                       });
+
                       BlocProvider.of<RegisterCubit>(context)
                           .messagesController
                           .clear();

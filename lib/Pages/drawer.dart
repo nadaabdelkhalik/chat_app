@@ -7,9 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import '../Bloc/login_cubit.dart';
 import '../Bloc/register_cubit.dart';
 import '../Utilities/consts.dart';
-import '../Widgets/button.dart';
 import '../Widgets/set_new_photo.dart';
-import '../Widgets/text_field.dart';
 import 'login_page.dart';
 
 Drawer drawer({required BuildContext context}) {
@@ -27,42 +25,6 @@ Drawer drawer({required BuildContext context}) {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            textField(
-                hintText: BlocProvider.of<RegisterCubit>(context).nickNameController?.text ??
-                    BlocProvider.of<RegisterCubit>(context).firstNameController.text,
-                suffixIcon: Icons.edit,
-                controller:
-                    BlocProvider.of<RegisterCubit>(context).nickNameController!),
-            textField(
-                hintText: BlocProvider.of<RegisterCubit>(context).firstNameController.text,
-                controller:
-                    BlocProvider.of<RegisterCubit>(context).firstNameController,
-                suffixIcon: Icons.edit),
-            textField(
-                hintText: BlocProvider.of<RegisterCubit>(context).lastNameController.text,
-                controller:
-                    BlocProvider.of<RegisterCubit>(context).lastNameController,
-                suffixIcon: Icons.edit),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: materialButton(
-                  context: context,
-                  child: const Text("Save Changes"),
-                  onPressed: () {
-                    BlocProvider.of<RegisterCubit>(context).firstNameController.text =
-                        BlocProvider.of<RegisterCubit>(context)
-                            .firstNameController
-                            .text;
-                    BlocProvider.of<RegisterCubit>(context).lastNameController.text =
-                        BlocProvider.of<RegisterCubit>(context)
-                            .lastNameController
-                            .text;
-                    BlocProvider.of<RegisterCubit>(context).nickNameController?.text =
-                        BlocProvider.of<RegisterCubit>(context)
-                            .nickNameController!
-                            .text;
-                  }),
-            ),
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Column(
@@ -94,15 +56,19 @@ Drawer drawer({required BuildContext context}) {
                       const Text("Log Out"),
                       IconButton(
                           onPressed: () {
-                            BlocProvider.of<RegisterCubit>(context)
-                                .clearingData();
-                            BlocProvider.of<LoginCubit>(context).clearingData();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: ((context) => LoginPage()),
-                              ),
-                            );
+                            firebaseInstance.signOut().then((value) {
+                             currentUserId = null;
+                              BlocProvider.of<RegisterCubit>(context)
+                                  .clearingData();
+                              BlocProvider.of<LoginCubit>(context)
+                                  .clearingData();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: ((context) => LoginPage()),
+                                ),
+                              );
+                            });
                           },
                           icon: const Icon(
                             Icons.logout,

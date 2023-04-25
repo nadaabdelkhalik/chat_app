@@ -11,6 +11,7 @@ class LoginCubit extends Cubit<LoginStates> {
   TextEditingController passwordController = TextEditingController();
   bool obscure = true;
   IconData visibilityIcon = Icons.visibility_off;
+  
   void viewPassword() {
     obscure = !obscure;
     if (!obscure) {
