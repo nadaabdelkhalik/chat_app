@@ -120,32 +120,34 @@ class ChatsListItem extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(
-                                                DateFormat('hh-mm a').format(
-                                                    snapshot.data?.docs
-                                                            .last['createdAt']
-                                                            .toDate() ??
-                                                        DateTime.now()),
-                                                style: TextStyle(
-                                                    color: ksecondaryColor),
-                                              ),
-                                              snapshot.data?.docs
-                                                          .last['userId'] !=
-                                                      currentUserId
-                                                  ? CircleAvatar(
-                                                      backgroundColor: Colors
-                                                          .deepPurple[300],
-                                                      radius: 10,
-                                                    )
-                                                  : const SizedBox(),
-                                            ],
-                                          ),
-                                        )
+                                        const Expanded(
+                                          child: SizedBox(),
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(
+                                              DateFormat('hh-mm a').format(
+                                                  snapshot.data?.docs
+                                                          .last['createdAt']
+                                                          .toDate() ??
+                                                      DateTime.now()),
+                                              style: TextStyle(
+                                                  color: ksecondaryColor),
+                                            ),
+                                            snapshot.data?.docs
+                                                        .last['userId'] !=
+                                                    currentUserId
+                                                ? CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.deepPurple[300],
+                                                    radius: 10,
+                                                  )
+                                                : const SizedBox(),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 30,)
                                       ],
                                     ),
                                   ),
