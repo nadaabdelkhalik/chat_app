@@ -22,7 +22,7 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterCubit, RegisterStates>(
       builder: (context, state) => Scaffold(
-        appBar: AppBar(title: const Text('')),
+        appBar: AppBar(title: Text(userName)),
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -45,52 +45,30 @@ class ChatPage extends StatelessWidget {
               Expanded(
                   child: ChatBubble(
                 userName: userName,
-                
               )),
               SizedBox(
                 height: 70,
-                child: textField(
+                child: AppTextField(
                     hintText: "Message",
-                    suffix: Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: IconButton(
-                          onPressed: (() async {
-                            BlocProvider.of<RegisterCubit>(context).pickedFile =
-                                await picker
-                                    .pickImage(
-                                        source: ImageSource.gallery,
-                                        imageQuality: 100)
-                                    .then((value) {
-                              BlocProvider.of<RegisterCubit>(context)
-                                  .changeState();
-                              return null;
-                            });
-                          }),
-                          icon: Icon(
-                            Icons.camera_alt,
-                            color: Colors.grey[500],
-                            size: 30,
-                          )),
-                    ),
                     controller: BlocProvider.of<RegisterCubit>(context)
                         .messagesController,
                     suffixIcon: Icons.send,
                     onPressed: () {
                       FirebaseFirestore.instance
-                          .collection('chats/chatsDoc/chat$userName/chat/messages')
+                          .collection(
+                              'chats/chatsDoc/chat$userName/chat/messages/')
                           .add({
                         'text': BlocProvider.of<RegisterCubit>(context)
                             .messagesController
                             .text,
                         'createdAt': DateTime.now(),
-                        
-                        'userId':currentUserId
+                        'userId': currentUserId
                       });
 
                       BlocProvider.of<RegisterCubit>(context)
                           .messagesController
                           .clear();
-                    }),
+                    }, obscure: false,),
               )
             ],
           ),

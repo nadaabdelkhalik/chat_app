@@ -17,7 +17,7 @@ Drawer drawer({required BuildContext context}) {
       const SizedBox(
         height: 50,
       ),
-      Center(child: setNewPhoto(context: context)),
+       const Center(child: SetNewPhoto()),
       const SizedBox(
         height: 20,
       ),
@@ -57,7 +57,7 @@ Drawer drawer({required BuildContext context}) {
                       IconButton(
                           onPressed: () {
                             firebaseInstance.signOut().then((value) {
-                             currentUserId = null;
+                             currentUserId = '';
                               BlocProvider.of<RegisterCubit>(context)
                                   .clearingData();
                               BlocProvider.of<LoginCubit>(context)

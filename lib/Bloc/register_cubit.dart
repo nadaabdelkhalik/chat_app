@@ -14,12 +14,11 @@ class RegisterCubit extends Cubit<RegisterStates> {
   bool obscureConfirmPassword = true;
   XFile? pickedProfileFile;
   XFile? pickedBackGroundFile;
-  XFile? pickedFile;
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailAddressController = TextEditingController();
-  TextEditingController? nickNameController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
   TextEditingController messagesController = TextEditingController();
@@ -35,7 +34,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
           await firebaseInstance.createUserWithEmailAndPassword(
               email: emailAddressController.text,
               password: emailAddressController.text);
-      emit(SuccessState());
+
       FirebaseFirestore.instance
           .collection('users')
           .doc(authResult.user!.uid)
@@ -43,8 +42,10 @@ class RegisterCubit extends Cubit<RegisterStates> {
         'displayName': firstNameController.text,
         'email': emailAddressController.text,
         'password': passwordController.text,
-        'uid':firebaseInstance.currentUser?.uid
+        'uid': firebaseInstance.currentUser?.uid,
+        'imageURL': imageURL
       });
+      emit(SuccessState());
     } on FirebaseAuthException catch (e) {
       errorMessageForSigningUp = e.message;
       emit(FailureState());
@@ -77,10 +78,11 @@ class RegisterCubit extends Cubit<RegisterStates> {
     firstNameController.clear();
     lastNameController.clear();
     emailAddressController.clear();
-    nickNameController!.clear();
     passwordController.clear();
     confirmController.clear();
     messagesController.clear();
+    pickedBackGroundFile = null;
+    pickedProfileFile = null;
   }
 
   void changeState() {

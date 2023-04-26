@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       providers: [BlocProvider(
         create:((context) => RegisterCubit())),
         BlocProvider(
-        create:((context) => LoginCubit()))],
+        create:((context) => LoginCubit()),)],
        
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.deepPurple,
             useMaterial3: true
           ),
-          home: LoginPage(),
+          home:  LoginPage(),
           
         ),
     

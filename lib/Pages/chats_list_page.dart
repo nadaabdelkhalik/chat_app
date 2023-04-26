@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,12 +36,21 @@ class ChatsListPage extends StatelessWidget {
             leading: GestureDetector(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: userPhotoAvatar(context: context, radius: 45, size: 30),
+                child: UserPhotoAvatar(
+                    backgroundImage: BlocProvider.of<RegisterCubit>(context)
+                                .pickedProfileFile ==
+                            null
+                        ? null
+                        : FileImage(File(BlocProvider.of<RegisterCubit>(context)
+                            .pickedProfileFile!
+                            .path)),
+                    radius: 45,
+                    size: 30),
               ),
               onTap: () => _key.currentState!.openDrawer(),
             ),
           ),
-          body: chatsListItem(context: context)),
+          body: const ChatsListItem()),
     );
   }
 }

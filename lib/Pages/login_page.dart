@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                textField(
+                AppTextField(
                     hintText: "Email",
                     prefix: Icons.email,
                     textInputType: TextInputType.emailAddress,
@@ -48,8 +48,8 @@ class LoginPage extends StatelessWidget {
                       return null;
                     },
                     controller: BlocProvider.of<LoginCubit>(context)
-                        .emailAddressController),
-                textField(
+                        .emailAddressController, obscure: false, onPressed: () {  },),
+                AppTextField(
                     hintText: "Password",
                     obscure: BlocProvider.of<LoginCubit>(context).obscure,
                     prefix: Icons.lock,
@@ -65,11 +65,8 @@ class LoginPage extends StatelessWidget {
                     },
                     controller: BlocProvider.of<LoginCubit>(context)
                         .passwordController),
-                materialButton(
-                    context: context,
-                    child: state is LoadingState
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text("Sign In"),
+                Button(
+                   
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         BlocProvider.of<LoginCubit>(context)
@@ -94,7 +91,11 @@ class LoginPage extends StatelessWidget {
                           ));
                         }
                       }
-                    }),
+                    }, isSmall: false,
+                   
+                    child: state is LoadingState
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text("Sign In"),),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
