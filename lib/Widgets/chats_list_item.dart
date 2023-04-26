@@ -147,7 +147,9 @@ class ChatsListItem extends StatelessWidget {
                                                 : const SizedBox(),
                                           ],
                                         ),
-                                        const SizedBox(width: 30,)
+                                        const SizedBox(
+                                          width: 30,
+                                        )
                                       ],
                                     ),
                                   ),
